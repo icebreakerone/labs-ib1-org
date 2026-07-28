@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from dgen.net/w/ib1/perseus/perseus-2026-05-05-sme.2.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 28 Jul 2026 16:52:47 GMT -->
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>theEasyCarbonApp — Sustainable Finance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&amp;family=DM+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root {
+  --green:   #1a5c36;
+  --green-m: #237a49;
+  --green-l: #eaf5ef;
+  --green-ll:#f4faf6;
+  --orange:  #d94f0e;
+  --orange-l:#fef2ec;
+  --navy:    #1a2e3d;
+  --ink:     #111110;
+  --ink2:    #4a4845;
+  --ink3:    #9a9790;
+  --rule:    #e8e5e0;
+  --bg:      #fafaf8;
+  --white:   #ffffff;
+  --r:       6px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:16px;line-height:1.55}
+
+/* ── TOP BAR ── */
+.bar{height:48px;background:var(--navy);display:flex;align-items:center;padding:0 28px;gap:16px;position:sticky;top:0;z-index:100}
+.bar-logo{font-size:13px;font-weight:600;color:#fff;display:flex;align-items:center;gap:8px}
+.bar-dot{width:8px;height:8px;border-radius:50%;background:var(--green-m)}
+.bar-sep{width:1px;height:18px;background:rgba(255,255,255,.15)}
+.bar-title{font-size:12px;color:rgba(255,255,255,.5)}
+.bar-sp{flex:1}
+.bar-user{font-size:12px;color:rgba(255,255,255,.6)}
+.bar-step{font-size:11px;font-weight:600;color:rgba(255,255,255,.4);letter-spacing:.03em}
+.bar-step span{color:rgba(255,255,255,.9)}
+
+/* ── PAGES ── */
+.pg{display:none}
+.pg.on{display:block}
+
+/* ── SHARED LAYOUT ── */
+.wrap{max-width:760px;margin:0 auto;padding:56px 28px 80px}
+.wrap-wide{max-width:1000px;margin:0 auto;padding:56px 28px 80px}
+
+/* ── TYPOGRAPHY SCALE ── */
+.eyebrow{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--ink3);margin-bottom:10px}
+.page-title{font-size:32px;font-weight:600;line-height:1.15;margin-bottom:10px;color:var(--ink)}
+.page-sub{font-size:16px;color:var(--ink2);line-height:1.6;max-width:520px;margin-bottom:40px}
+
+/* ── RULES ── */
+.rule{height:1px;background:var(--rule);margin:32px 0}
+
+/* ── HERO NUMBER ── */
+.hero-num{font-size:72px;font-weight:300;line-height:1;letter-spacing:-2px;color:var(--ink)}
+.hero-num .unit{font-size:28px;font-weight:400;letter-spacing:0;color:var(--ink2);margin-left:4px}
+.hero-num .sign{font-size:40px;font-weight:300;color:var(--green);margin-right:2px}
+
+/* ── NUMBER ROW ── */
+.num-row{display:grid;gap:0;border:1px solid var(--rule);border-radius:var(--r);overflow:hidden;margin-bottom:32px}
+.num-row-3{grid-template-columns:1fr 1fr 1fr}
+.num-row-2{grid-template-columns:1fr 1fr}
+.num-cell{padding:22px 24px;border-right:1px solid var(--rule);background:var(--white)}
+.num-cell:last-child{border-right:none}
+.nc-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--ink3);margin-bottom:6px}
+.nc-val{font-size:28px;font-weight:500;line-height:1;color:var(--ink)}
+.nc-val.green{color:var(--green)}
+.nc-val.orange{color:var(--orange)}
+.nc-sub{font-size:12px;color:var(--ink3);margin-top:4px}
+
+/* ── OFFER CARDS ── */
+.offer-list{display:flex;flex-direction:column;gap:12px;margin-bottom:32px}
+.offer{background:var(--white);border:1px solid var(--rule);border-radius:var(--r);padding:22px 24px;cursor:pointer;transition:border-color .12s;display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center}
+.offer:hover{border-color:#aaa}
+.offer.selected{border:2px solid var(--green);padding:21px 23px}
+.offer-left{}
+.offer-tag{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3);margin-bottom:5px}
+.offer-name{font-size:17px;font-weight:600;color:var(--ink);margin-bottom:4px}
+.offer-desc{font-size:13px;color:var(--ink2);line-height:1.45}
+.offer-right{text-align:right;flex-shrink:0}
+.offer-rate{font-size:30px;font-weight:500;color:var(--green);line-height:1}
+.offer-rate-unit{font-size:13px;color:var(--ink3);margin-top:2px}
+.offer-saving{font-size:13px;font-weight:600;color:var(--green);margin-top:4px}
+.offer-std{font-size:12px;color:var(--ink3);text-decoration:line-through}
+
+.section-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink3);margin:28px 0 12px}
+
+/* ── DATA SCOPE ── */
+.scope-row{display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid var(--rule)}
+.scope-row:first-child{border-top:1px solid var(--rule)}
+.scope-check{width:20px;height:20px;border-radius:50%;background:var(--green-l);color:var(--green);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.scope-text{flex:1;font-size:14px;color:var(--ink)}
+.scope-detail{font-size:12px;color:var(--ink3)}
+
+/* ── CONSENT ── */
+.consent{background:var(--green-ll);border:1px solid rgba(26,92,54,.15);border-radius:var(--r);padding:20px 22px;margin-bottom:24px}
+.consent-title{font-size:14px;font-weight:600;color:var(--green);margin-bottom:6px}
+.consent p{font-size:13px;color:var(--ink2);line-height:1.55;margin-bottom:10px}
+.check-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:6px}
+.check-row input{accent-color:var(--green);margin-top:3px;width:15px;height:15px;flex-shrink:0;cursor:pointer}
+.check-row label{font-size:13px;color:var(--ink);line-height:1.45;cursor:pointer}
+
+/* ── STATUS LIST ── */
+.status-list{display:flex;flex-direction:column;gap:0;margin-bottom:24px}
+.status-row{display:flex;align-items:flex-start;gap:12px;padding:13px 0;border-bottom:1px solid var(--rule)}
+.status-row:last-child{border-bottom:none}
+.s-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.s-ok{background:var(--green)}
+.s-pending{background:var(--orange)}
+.s-idle{background:var(--ink3)}
+.s-title{font-size:14px;font-weight:500;color:var(--ink)}
+.s-sub{font-size:12px;color:var(--ink3);margin-top:2px}
+
+/* ── PROVENANCE ── */
+.prov{display:flex;flex-direction:column;gap:0;margin:20px 0}
+.prov-row{display:flex;align-items:flex-start;gap:14px;padding:12px 0;border-bottom:1px solid var(--rule);position:relative}
+.prov-row:last-child{border-bottom:none}
+.prov-num{width:24px;height:24px;border-radius:50%;background:var(--navy);color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.prov-body{}
+.prov-title{font-size:13px;font-weight:600;color:var(--ink)}
+.prov-sub{font-size:12px;color:var(--ink3);margin-top:2px}
+.prov-tag{display:inline-block;font-size:10px;font-weight:600;padding:1px 6px;border-radius:2px;background:var(--green-l);color:var(--green);margin-top:4px}
+
+/* ── CHART ── */
+.chart-wrap{margin:20px 0}
+.bars{display:flex;align-items:flex-end;gap:4px;height:72px;padding:0 1px}
+.bar-b{flex:1;border-radius:2px 2px 0 0;min-height:4px;background:var(--green-m);opacity:.7;transition:opacity .1s;cursor:default}
+.bar-b:hover{opacity:1}
+.bar-labels{display:flex;gap:4px;margin-top:4px}
+.bar-labels span{flex:1;text-align:center;font-size:9px;color:var(--ink3)}
+
+/* ── LOAN TABLE ── */
+.loan-table{width:100%;border-collapse:collapse;margin-bottom:28px}
+.loan-table tr{border-bottom:1px solid var(--rule)}
+.loan-table tr:last-child{border-bottom:none}
+.loan-table td{padding:13px 0;font-size:14px}
+.loan-table td:first-child{color:var(--ink2)}
+.loan-table td:last-child{text-align:right;font-weight:500;color:var(--ink)}
+.loan-table .big{font-size:20px;font-weight:600;color:var(--green)}
+.loan-table .strike{text-decoration:line-through;color:var(--ink3);font-weight:400;font-size:13px}
+
+/* ── FORM ── */
+.field{margin-bottom:16px}
+.field label{display:block;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--ink3);margin-bottom:5px}
+.field input,.field select{width:100%;border:1px solid var(--rule);border-radius:var(--r);padding:10px 12px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--ink);background:var(--white)}
+.field input:focus,.field select:focus{outline:2px solid var(--green);border-color:transparent}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;gap:7px;padding:13px 24px;border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;cursor:pointer;transition:all .12s;text-decoration:none;border:none}
+.btn-green{background:var(--green);color:#fff}
+.btn-green:hover{background:var(--green-m)}
+.btn-ghost{background:transparent;color:var(--ink2);border:1px solid var(--rule)}
+.btn-ghost:hover{border-color:#888;color:var(--ink)}
+.btn-row{display:flex;gap:10px;align-items:center;margin-top:32px}
+.btn.full{width:100%;justify-content:center}
+
+/* ── BANNER (dashboard entry) ── */
+.banner{background:var(--navy);border-radius:var(--r);padding:28px 32px;cursor:pointer;display:flex;align-items:center;gap:24px;margin-bottom:40px;transition:opacity .15s}
+.banner:hover{opacity:.94}
+.banner-left{}
+.banner-eyebrow{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.45);margin-bottom:6px}
+.banner-title{font-size:20px;font-weight:600;color:#fff;line-height:1.25;margin-bottom:4px}
+.banner-sub{font-size:13px;color:rgba(255,255,255,.6);line-height:1.5}
+.banner-numbers{display:flex;gap:28px;margin-left:auto;flex-shrink:0;text-align:center}
+.bn-item .bn-val{font-size:26px;font-weight:600;color:#fff;line-height:1}
+.bn-item .bn-lbl{font-size:11px;color:rgba(255,255,255,.45);margin-top:3px}
+.banner-arrow{font-size:22px;color:rgba(255,255,255,.4);flex-shrink:0;margin-left:16px}
+
+/* ── SAVING HIGHLIGHT ── */
+.saving-box{background:var(--green);border-radius:var(--r);padding:24px 28px;color:#fff;margin-bottom:32px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:0}
+.sb-cell{padding:0 20px;border-right:1px solid rgba(255,255,255,.2);text-align:center}
+.sb-cell:first-child{padding-left:0;text-align:left}
+.sb-cell:last-child{border-right:none;text-align:right}
+.sb-val{font-size:36px;font-weight:600;line-height:1;letter-spacing:-1px}
+.sb-lbl{font-size:11px;color:rgba(255,255,255,.65);margin-top:5px;text-transform:uppercase;letter-spacing:.06em}
+
+/* ── CONFIRM ── */
+.confirm-icon{width:60px;height:60px;border-radius:50%;background:var(--green-l);display:flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:24px}
+.ref-box{background:var(--white);border:1px solid var(--rule);border-radius:var(--r);padding:18px 20px;margin-bottom:24px}
+.ref-row{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--rule);font-size:14px}
+.ref-row:last-child{border-bottom:none}
+.ref-row .rl{color:var(--ink2)}
+.ref-row .rv{font-weight:500}
+
+/* ── DASH MINI METRICS ── */
+.dash-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:32px}
+.dm{padding:18px;background:var(--white);border:1px solid var(--rule);border-radius:var(--r)}
+.dm .dm-l{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--ink3);margin-bottom:5px;font-weight:600}
+.dm .dm-v{font-size:22px;font-weight:500;color:var(--ink)}
+.dm .dm-s{font-size:12px;color:var(--ink3);margin-top:3px}
+.dm .dm-v .good{color:var(--green)}
+.dm .dm-v .small{font-size:14px;font-weight:400;color:var(--ink2)}
+
+/* ── DASH TABLE ── */
+.dash-tbl{width:100%;border-collapse:collapse;background:var(--white);border:1px solid var(--rule);border-radius:var(--r);overflow:hidden;margin-bottom:32px}
+.dash-tbl th{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--ink3);padding:10px 14px;text-align:left;border-bottom:1px solid var(--rule);background:var(--bg)}
+.dash-tbl td{font-size:13px;padding:12px 14px;border-bottom:1px solid var(--rule);color:var(--ink)}
+.dash-tbl tr:last-child td{border-bottom:none}
+.tag{display:inline-block;font-size:10px;font-weight:700;padding:2px 7px;border-radius:3px;text-transform:uppercase;letter-spacing:.04em}
+
+/* notice */
+.notice{background:var(--green-ll);border-left:3px solid var(--green);padding:14px 16px;border-radius:0 var(--r) var(--r) 0;font-size:13px;color:var(--ink2);line-height:1.55;margin-bottom:28px}
+.notice strong{color:var(--green)}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="bar">
+  <div class="bar-logo"><div class="bar-dot"></div>theEasyCarbonApp</div>
+  <div class="bar-sep"></div>
+  <div class="bar-title">Green Oak Café Ltd</div>
+  <div class="bar-sp"></div>
+  <div class="bar-step" id="bar-step">Dashboard</div>
+</div>
+
+
+<!-- ═══════════════════════
+     1. DASHBOARD
+═══════════════════════ -->
+<div class="pg on" id="pg-dash">
+  <div class="wrap">
+    <div class="eyebrow">Dashboard</div>
+    <h1 class="page-title">Good morning, Aisha</h1>
+
+    <!-- Key metrics -->
+    <div class="dash-metrics">
+      <div class="dm">
+        <div class="dm-l">Scope 2 estimate · 2024</div>
+        <div class="dm-v"><span style="color:var(--orange-dark,#b84000)">~11.4</span> <span class="small">tCO₂e</span></div>
+        <div class="dm-s">Spend-based estimate · unconfirmed</div>
+      </div>
+      <div class="dm">
+        <div class="dm-l">Electricity spend</div>
+        <div class="dm-v">£14,200 <span class="small">/ yr</span></div>
+        <div class="dm-s">Used to estimate consumption</div>
+      </div>
+      <div class="dm">
+        <div class="dm-l">Data quality</div>
+        <div class="dm-v" style="font-size:16px;padding-top:4px">PCAF Score 4</div>
+        <div class="dm-s">Spend-based · lowest quality</div>
+      </div>
+    </div>
+
+    <!-- Entry banner -->
+    <div class="banner" onclick="go('market')">
+      <div class="banner-left">
+        <div class="banner-eyebrow">Action needed · Powered by Perseus</div>
+        <div class="banner-title">You may qualify for green finance — connect your smart meter to confirm</div>
+        <div class="banner-sub">Your spend-based estimate suggests you could qualify, but lenders need verified smart meter data. Connecting takes one step and could save you £420/yr on a £35k loan.</div>
+      </div>
+      <div class="banner-numbers">
+        <div class="bn-item"><div class="bn-val">~£420</div><div class="bn-lbl">potential saving / yr</div></div>
+        <div class="bn-item"><div class="bn-val">Score 4→1</div><div class="bn-lbl">PCAF quality upgrade</div></div>
+        <div class="bn-item"><div class="bn-val">~11.4t</div><div class="bn-lbl">CO₂e estimated</div></div>
+      </div>
+      <div class="banner-arrow">›</div>
+    </div>
+
+    <!-- Reports table -->
+    <div style="font-size:13px;font-weight:600;color:var(--ink3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px">Recent reports</div>
+    <table class="dash-tbl">
+      <thead><tr><th>Report</th><th>Scope 2</th><th>vs sector</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Annual 2024</strong> · Jan–Dec</td>
+          <td style="color:#b84000;font-weight:600">~11.4 tCO₂e</td>
+          <td style="color:var(--ink3)">est. −13.6%</td>
+          <td><span class="tag" style="background:#fff3e0;color:#b84000">Spend-based · PCAF 4</span></td>
+        </tr>
+        <tr>
+          <td>Annual 2023 · Jan–Dec</td>
+          <td>~12.1 tCO₂e</td>
+          <td style="color:var(--ink3)">est. −8.3%</td>
+          <td><span class="tag" style="background:#f0f0ee;color:var(--ink3)">Spend-based · PCAF 4</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <button class="btn btn-green" onclick="go('market')">See how to confirm and unlock green finance →</button>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════
+     2. FINANCE MARKETPLACE
+═══════════════════════ -->
+<div class="pg" id="pg-market">
+  <div class="wrap">
+    <div class="eyebrow">Sustainable finance · upgrade your emissions data</div>
+    <h1 class="page-title">Your estimate may qualify — connect your meter to confirm</h1>
+    <p class="page-sub">Your current Scope 2 figure is spend-based (PCAF Quality 4). Lenders need smart meter data (PCAF Quality 1) to offer verified rates. Connecting via Perseus replaces your estimate with primary data — in one step.</p>
+
+    <!-- Your profile numbers -->
+    <div class="num-row num-row-3" style="margin-bottom:36px">
+      <div class="num-cell">
+        <div class="nc-label">Current estimate · Scope 2</div>
+        <div class="nc-val" style="color:#b84000">~11.4 tCO₂e</div>
+        <div class="nc-sub">Spend-based · PCAF Quality 4 · unconfirmed</div>
+      </div>
+      <div class="num-cell">
+        <div class="nc-label">After connecting smart meter</div>
+        <div class="nc-val green">~9.8 tCO₂e</div>
+        <div class="nc-sub">Projected · PCAF Quality 1 · lender-ready</div>
+      </div>
+      <div class="num-cell">
+        <div class="nc-label">Potential saving if confirmed</div>
+        <div class="nc-val green">£420 / yr</div>
+        <div class="nc-sub">on £35k green loan · needs verification</div>
+      </div>
+    </div>
+
+    <!-- LOANS -->
+    <div class="section-label">Borrowing</div>
+    <div class="offer-list">
+
+      <div class="offer selected" onclick="selectOffer(this,'loan1')">
+        <div class="offer-left">
+          <div class="offer-tag">Green loan · theEasyBank</div>
+          <div class="offer-name">Green Business Loan</div>
+          <div class="offer-desc">Invest in solar, heat pump, LED or EV charging. Rate verified by your Perseus report. £35,000 · 5 years.</div>
+        </div>
+        <div class="offer-right">
+          <div class="offer-rate">4.2%</div>
+          <div class="offer-rate-unit">pa · your rate</div>
+          <div class="offer-saving">Save £420 / yr</div>
+          <div class="offer-std">5.4% standard</div>
+        </div>
+      </div>
+
+      <div class="offer" onclick="selectOffer(this,'loan2')">
+        <div class="offer-left">
+          <div class="offer-tag">Sustainability-linked loan · theEasyBank</div>
+          <div class="offer-name">SLL with emissions KPI</div>
+          <div class="offer-desc">Rate ratchets down as you hit annual reduction targets. Each 10% CO₂ cut earns a further −0.25%. £50,000 · 5 years.</div>
+        </div>
+        <div class="offer-right">
+          <div class="offer-rate">4.9%</div>
+          <div class="offer-rate-unit">pa starting rate</div>
+          <div class="offer-saving">→ 4.65% yr 2 if KPI met</div>
+          <div class="offer-std">6.1% standard</div>
+        </div>
+      </div>
+
+      <div class="offer" onclick="selectOffer(this,'loan3')">
+        <div class="offer-left">
+          <div class="offer-tag">Retrofit loan · GreenCapital Bank</div>
+          <div class="offer-name">Energy Efficiency Retrofit</div>
+          <div class="offer-desc">Finance solar, insulation or heat pump. Payback verified via your smart meter post-install. Up to £75,000 · 7 years.</div>
+        </div>
+        <div class="offer-right">
+          <div class="offer-rate">3.9%</div>
+          <div class="offer-rate-unit">pa · lowest rate</div>
+          <div class="offer-saving">Est. payback 6.2 yrs</div>
+          <div class="offer-std">5.6% standard</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SAVINGS -->
+    <div class="section-label">Savings — fund sustainability from cashflow, not debt</div>
+    <div class="offer-list">
+
+      <div class="offer" onclick="selectOffer(this,'save1')">
+        <div class="offer-left">
+          <div class="offer-tag">Sustainability-linked savings · theEasyBank</div>
+          <div class="offer-name">Business Savings Account</div>
+          <div class="offer-desc">Earn a higher rate on deposits when your verified Scope 2 stays below threshold. Checked annually via Perseus. No loan needed.</div>
+        </div>
+        <div class="offer-right">
+          <div class="offer-rate" style="color:var(--navy)">4.85%</div>
+          <div class="offer-rate-unit">AER · Tier 1 (you qualify)</div>
+          <div class="offer-saving" style="color:var(--navy)">Earn £375 more / yr on £50k</div>
+          <div class="offer-std">4.10% standard</div>
+        </div>
+      </div>
+
+      <div class="offer" onclick="selectOffer(this,'save2')">
+        <div class="offer-left">
+          <div class="offer-tag">Tiered savings · Triodos Bank</div>
+          <div class="offer-name">EcoSaver Business Account</div>
+          <div class="offer-desc">Rate tiered by carbon intensity. Your 0.171 kgCO₂/kWh sits in Tier 1 (under 0.20 threshold). Instant access.</div>
+        </div>
+        <div class="offer-right">
+          <div class="offer-rate" style="color:var(--navy)">4.70%</div>
+          <div class="offer-rate-unit">AER · instant access</div>
+          <div class="offer-saving" style="color:var(--navy)">Earn £300 more / yr on £50k</div>
+          <div class="offer-std">4.10% standard</div>
+        </div>
+      </div>
+
+      <div class="offer" onclick="selectOffer(this,'save3')">
+        <div class="offer-left">
+          <div class="offer-tag">Fixed-term deposit · GreenCapital Bank</div>
+          <div class="offer-name">Green Term Deposit</div>
+          <div class="offer-desc">Lock savings for 12 months. If you reduce emissions by 10% in 2025 (verified by Perseus), your rate increases for the next term.</div>
+        </div>
+        <div class="offer-right">
+          <div class="offer-rate" style="color:var(--navy)">4.60%</div>
+          <div class="offer-rate-unit">AER · 12-month fixed</div>
+          <div class="offer-saving" style="color:var(--navy)">→ 4.90% AER if CO₂ ↓ 10%</div>
+          <div class="offer-std">4.10% standard</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="notice"><strong>Why connect your smart meter?</strong> Your current spend-based figures (PCAF Quality 4) are unlikely to satisfy lenders — they need primary meter data (PCAF Quality 1). Connecting via Perseus takes one step: you give permission once, theEasyCarbonApp retrieves your 30-min consumption data directly from theEasySmartDataProvider, recalculates your emissions, and generates a signed report lenders can trust. Your raw meter data never reaches the lender.</div>
+
+    <div class="btn-row">
+      <button class="btn btn-green" onclick="go('permissions')">Connect smart meter to confirm your figures →</button>
+      <button class="btn btn-ghost" onclick="go('dash')">← Back</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════
+     3. PERMISSIONS
+═══════════════════════ -->
+<div class="pg" id="pg-permissions">
+  <div class="wrap">
+    <div class="eyebrow">Step 1 of 3 — Give permission</div>
+    <h1 class="page-title">Connect your smart meter data</h1>
+    <p class="page-sub">theEasyCarbonApp needs your permission to retrieve your electricity consumption data from theEasySmartDataProvider. This replaces your current spend-based estimate with primary smart meter data, giving you a PCAF Quality 1 report that lenders accept.</p>
+
+    <!-- Why this step is needed -->
+    <div class="num-row num-row-2" style="margin-bottom:28px">
+      <div class="num-cell">
+        <div class="nc-label">Current data quality</div>
+        <div class="nc-val" style="font-size:18px;color:#b84000">PCAF Score 4 — spend-based</div>
+        <div class="nc-sub">Estimated from electricity spend · not accepted by most lenders</div>
+      </div>
+      <div class="num-cell green">
+        <div class="nc-label">After connecting</div>
+        <div class="nc-val" style="font-size:18px" class="green">PCAF Score 1 — primary data</div>
+        <div class="nc-sub">Direct from smart meter · 30-min resolution · lender-ready</div>
+      </div>
+    </div>
+
+    <!-- What's being accessed -->
+    <div class="section-label">Data that will be accessed</div>
+    <div class="scope-row">
+      <div class="scope-check">✓</div>
+      <div class="scope-text">Your electricity consumption <span style="color:var(--ink3);font-size:13px">· taken every 30 minutes</span></div>
+      <div class="scope-detail">theEasySmartDataProvider</div>
+    </div>
+    <div class="scope-row">
+      <div class="scope-check">✓</div>
+      <div class="scope-text">Electricity tariff data</div>
+      <div class="scope-detail">theEasySmartDataProvider</div>
+    </div>
+    <div class="scope-row" style="opacity:.45">
+      <div class="scope-check" style="background:#f0f0ee;color:var(--ink3)">—</div>
+      <div class="scope-text">Gas consumption <span style="color:var(--ink3);font-size:13px">· coming 2026</span></div>
+      <div class="scope-detail">Not yet available</div>
+    </div>
+
+    <div class="rule"></div>
+
+    <!-- REAL PERSEUS PERMISSION TEXT -->
+    <!-- FSP-initiated flow: one combined permission screen covering both EDP data access AND report to FSP -->
+    <!-- Text source: Perseus Registry — registry.core.sandbox.trust.ib1.org/scheme/perseus/license/energy-consumption-data/2025-10-23 · permissionText field -->
+    <div class="consent">
+      <div class="consent-title">Permission — theEasyCarbonApp</div>
+
+      <p style="font-size:13px;color:var(--ink2);line-height:1.6;margin-bottom:12px">
+        theEasyCarbonApp ("we") need your permission to retrieve your energy consumption
+        information from <strong>theEasySmartDataProvider</strong> and provide calculated
+        emissions to <strong>theEasyBank</strong>.
+      </p>
+
+      <p style="font-size:13px;color:var(--ink2);line-height:1.6;margin-bottom:12px">
+        theEasyCarbonApp ("we") need your consent to access the following data provided
+        by <strong>theEasySmartDataProvider</strong>:
+      </p>
+
+      <ul style="font-size:13px;color:var(--ink2);padding-left:20px;margin-bottom:14px;line-height:1.9">
+        <li>Your electricity consumption (taken every 30 minutes)</li>
+        <li>Electricity tariff data</li>
+      </ul>
+
+      <!-- Mandatory checkbox — label is for the CAP to draft, not the permission text itself -->
+      <div class="check-row">
+        <input type="checkbox" id="c1" checked>
+        <label for="c1" style="font-size:13px;font-weight:500">I give permission</label>
+      </div>
+
+      <div style="margin-top:12px;padding:10px 12px;background:rgba(0,0,0,.03);border-radius:4px;font-size:11px;color:var(--ink3);line-height:1.6">
+        Licence: <span style="font-family:monospace">registry.core.sandbox.trust.ib1.org/scheme/perseus/license/energy-consumption-data/2025-10-23</span><br>
+        This permission expires after 12 months and can be renewed. You can withdraw at any time.
+      </div>
+    </div>
+
+    <!-- What happens -->
+    <div class="section-label">What happens next</div>
+    <div class="status-list">
+      <div class="status-row"><div class="s-dot s-ok"></div><div><div class="s-title">Permission logged by theEasyCarbonApp and theEasySmartDataProvider</div><div class="s-sub">Timestamp · your user ID · IP address · user agent · Registry licence URL recorded</div></div></div>
+      <div class="status-row"><div class="s-dot s-ok"></div><div><div class="s-title">theEasyCarbonApp authenticates with theEasySmartDataProvider via FAPI 2.0</div><div class="s-sub">mTLS client certificate · Pushed Authorization Request (PAR) · peer-to-peer · no central intermediary</div></div></div>
+      <div class="status-row"><div class="s-dot s-pending"></div><div><div class="s-title">12 months of 30-min electricity data retrieved</div><div class="s-sub">Replaces your spend-based estimate with primary meter readings</div></div></div>
+      <div class="status-row"><div class="s-dot s-idle"></div><div><div class="s-title">Emissions recalculated using Perseus methodology</div><div class="s-sub">Σ (half-hourly kWh × NESO half-hourly kgCO₂/kWh) · PCAF Quality 1</div></div></div>
+      <div class="status-row"><div class="s-dot s-idle"></div><div><div class="s-title">Signed report generated for theEasyBank</div><div class="s-sub">Perseus certificate · provenance record · your raw meter data never sent to the lender</div></div></div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-green" onclick="go('report')">Continue →</button>
+      <button class="btn btn-ghost" onclick="go('market')">← Back</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════
+     4. EMISSIONS REPORT
+═══════════════════════ -->
+<div class="pg" id="pg-report">
+  <div class="wrap">
+    <div class="eyebrow">Step 2 of 3 — Your emissions report</div>
+    <h1 class="page-title">Verified report ready — 9.8 tCO₂e</h1>
+    <p class="page-sub">Your smart meter data has replaced your spend-based estimate. Signed by theEasyCarbonApp · Jan–Dec 2024 · PCAF Quality Score 1 · Perseus certificate attached.</p>
+
+    <!-- Data quality upgrade callout -->
+    <div class="num-row num-row-2" style="margin-bottom:32px">
+      <div class="num-cell">
+        <div class="nc-label">Previous estimate</div>
+        <div class="nc-val" style="color:#b84000;font-size:22px">~11.4 tCO₂e</div>
+        <div class="nc-sub">Spend-based · PCAF Score 4 · not accepted by lenders</div>
+      </div>
+      <div class="num-cell green">
+        <div class="nc-label">Now verified</div>
+        <div class="nc-val green">9.8 tCO₂e</div>
+        <div class="nc-sub">Smart meter · PCAF Score 1 · lender-ready · ↓ 14% lower than estimate</div>
+      </div>
+    </div>
+
+    <!-- Monthly chart -->
+    <div class="section-label">Monthly emissions · Jan–Dec 2024 (tCO₂e)</div>
+    <div class="chart-wrap">
+      <div class="bars" id="chart-bars"></div>
+      <div class="bar-labels" id="chart-labels"></div>
+    </div>
+    <p style="font-size:12px;color:var(--ink3);margin-top:2px;margin-bottom:28px">Lower summer figures reflect cleaner grid carbon intensity in spring/autumn.</p>
+
+    <!-- Key figures -->
+    <div class="section-label">Key figures</div>
+    <div class="rule" style="margin:0 0 0"></div>
+    <table style="width:100%;border-collapse:collapse;margin-bottom:32px">
+      <tr style="border-bottom:1px solid var(--rule)"><td style="padding:11px 0;font-size:14px;color:var(--ink2)">Electricity consumed</td><td style="padding:11px 0;font-size:14px;font-weight:500;text-align:right">57,300 kWh</td></tr>
+      <tr style="border-bottom:1px solid var(--rule)"><td style="padding:11px 0;font-size:14px;color:var(--ink2)">Weighted carbon intensity</td><td style="padding:11px 0;font-size:14px;font-weight:500;text-align:right">0.171 kgCO₂/kWh</td></tr>
+      <tr style="border-bottom:1px solid var(--rule)"><td style="padding:11px 0;font-size:14px;color:var(--ink2)">Data source</td><td style="padding:11px 0;font-size:14px;font-weight:500;text-align:right">theEasySmartDataProvider · 30-min SMETS2</td></tr>
+      <tr style="border-bottom:1px solid var(--rule)"><td style="padding:11px 0;font-size:14px;color:var(--ink2)">Carbon intensity data</td><td style="padding:11px 0;font-size:14px;font-weight:500;text-align:right">NESO half-hourly regional</td></tr>
+      <tr style="border-bottom:1px solid var(--rule)"><td style="padding:11px 0;font-size:14px;color:var(--ink2)">Methodology</td><td style="padding:11px 0;font-size:14px;font-weight:500;text-align:right">PCAF · GHG Protocol</td></tr>
+      <tr><td style="padding:11px 0;font-size:14px;color:var(--ink2)">PCAF quality score</td><td style="padding:11px 0;text-align:right"><span style="font-size:14px;font-weight:600;color:var(--green)">Score 1 — highest</span></td></tr>
+    </table>
+
+    <!-- Provenance -->
+    <div class="section-label">Data provenance — verified chain of custody</div>
+    <div class="prov">
+      <div class="prov-row"><div class="prov-num">1</div><div class="prov-body"><div class="prov-title">Smart meter → theEasySmartDataProvider</div><div class="prov-sub">SMETS2 · direct measurement · SEC calibration · MPAN 00-111-222-333</div><span class="prov-tag">Smart Energy Code</span></div></div>
+      <div class="prov-row"><div class="prov-num">2</div><div class="prov-body"><div class="prov-title">theEasySmartDataProvider → theEasyCarbonApp</div><div class="prov-sub">FAPI 2.0 · mTLS · peer-to-peer · permission perm-5678-efgh · provenance metadata attached</div><span class="prov-tag">FAPI 2.0 · mTLS · PAR</span></div></div>
+      <div class="prov-row"><div class="prov-num">3</div><div class="prov-body"><div class="prov-title">Grid carbon intensity · National Grid ESO</div><div class="prov-sub">Half-hourly regional intensity · NESO Forecast API · CC-BY 4.0</div><span class="prov-tag">CC-BY 4.0 · NESO</span></div></div>
+      <div class="prov-row"><div class="prov-num">4</div><div class="prov-body"><div class="prov-title">Emissions calculation · theEasyCarbonApp</div><div class="prov-sub">PCAF GHG methodology · Perseus algorithm v2.1 · half-hourly matching of consumption and intensity</div><span class="prov-tag">PCAF · GHG Protocol</span></div></div>
+      <div class="prov-row"><div class="prov-num">5</div><div class="prov-body"><div class="prov-title">Report signed · theEasyCarbonApp</div><div class="prov-sub">Perseus certificate · provenance hash a3f9b2e1…d21c · tamper-evident · lenders can verify</div><span class="prov-tag">Perseus certificate</span></div></div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-green" onclick="go('offers')">See your matched offers →</button>
+      <button class="btn btn-ghost">Download signed PDF</button>
+      <button class="btn btn-ghost" onclick="go('permissions')" style="margin-left:auto">← Back</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════
+     5. MATCHED OFFERS
+═══════════════════════ -->
+<div class="pg" id="pg-offers">
+  <div class="wrap">
+    <div class="eyebrow">Step 3 of 3 — Your personalised rates</div>
+    <h1 class="page-title">Verified — here are your confirmed rates</h1>
+    <p class="page-sub">Your smart meter data replaced your spend-based estimate. These rates are now locked to your verified 9.8 tCO₂e PCAF Quality 1 report.</p>
+
+    <!-- Saving highlight -->
+    <div class="saving-box">
+      <div class="sb-cell">
+        <div class="sb-val">£420</div>
+        <div class="sb-lbl">saved / yr on loan</div>
+      </div>
+      <div class="sb-cell" style="text-align:center">
+        <div class="sb-val">£375</div>
+        <div class="sb-lbl">extra / yr on savings</div>
+      </div>
+      <div class="sb-cell">
+        <div class="sb-val">9.8t</div>
+        <div class="sb-lbl">CO₂e · verified · PCAF Q1</div>
+      </div>
+    </div>
+
+    <!-- Top loan offer -->
+    <div class="section-label">Borrowing — top match</div>
+    <div class="num-row num-row-3" style="margin-bottom:12px">
+      <div class="num-cell" style="background:var(--green);border-color:var(--green)">
+        <div class="nc-label" style="color:rgba(255,255,255,.65)">Your rate</div>
+        <div class="nc-val" style="color:#fff;font-size:36px">4.2%</div>
+        <div class="nc-sub" style="color:rgba(255,255,255,.65)">pa · verified discount</div>
+      </div>
+      <div class="num-cell">
+        <div class="nc-label">Standard rate</div>
+        <div class="nc-val" style="font-size:22px;text-decoration:line-through;color:var(--ink3)">5.4%</div>
+        <div class="nc-sub">Without Perseus verification</div>
+      </div>
+      <div class="num-cell">
+        <div class="nc-label">You save</div>
+        <div class="nc-val green" style="font-size:30px">£420 / yr</div>
+        <div class="nc-sub">£2,100 over 5 years on £35k</div>
+      </div>
+    </div>
+    <div style="font-size:13px;color:var(--ink3);margin-bottom:28px">theEasyBank · Green Business Loan · £35,000 · 5 years · £645/month (vs £668 standard)</div>
+
+    <!-- All loan options -->
+    <div class="offer-list" style="margin-bottom:36px">
+      <div class="offer selected" onclick="selectOffer(this,'loan1')">
+        <div class="offer-left">
+          <div class="offer-tag">Green loan · theEasyBank · best match</div>
+          <div class="offer-name">Green Business Loan · £35,000 · 5 yr</div>
+          <div class="offer-desc">Solar, heat pump, LED, EV charging. Rate locked to your PCAF Q1 report.</div>
+        </div>
+        <div class="offer-right">
+          <div class="offer-rate">4.2%</div>
+          <div class="offer-rate-unit">pa</div>
+          <div class="offer-saving">Save £420 / yr</div>
+          <div class="offer-std">5.4% without Perseus</div>
+        </div>
+      </div>
+      <div class="offer" onclick="selectOffer(this,'loan2')">
+        <div class="offer-left">
+          <div class="offer-tag">Sustainability-linked · theEasyBank</div>
+          <div class="offer-name">SLL with CO₂ KPI · £50,000 · 5 yr</div>
+          <div class="offer-desc">Rate falls −0.25% for every 10% CO₂ reduction verified annually.</div>
+        </div>
+        <div class="offer-right">
+          <div class="offer-rate">4.9%</div>
+          <div class="offer-rate-unit">pa today → 4.65% yr 2</div>
+          <div class="offer-saving">Save £600+ over 5 yr (projected)</div>
+          <div class="offer-std">6.1% without Perseus</div>
+        </div>
+      </div>
+      <div class="offer" onclick="selectOffer(this,'loan3')">
+        <div class="offer-left">
+          <div class="offer-tag">Retrofit · GreenCapital Bank</div>
+          <div class="offer-name">Energy Retrofit Loan · up to £75,000 · 7 yr</div>
+          <div class="offer-desc">Payback verified via smart meter. Best rate for energy-saving projects.</div>
+        </div>
+        <div class="offer-right">
+          <div class="offer-rate">3.9%</div>
+          <div class="offer-rate-unit">pa · lowest rate</div>
+          <div class="offer-saving">Est. payback 6.2 yrs on solar</div>
+          <div class="offer-std">5.6% without Perseus</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Savings section -->
+    <div class="section-label">Savings — earn more, no debt needed</div>
+    <div class="num-row num-row-2" style="margin-bottom:12px">
+      <div class="num-cell" style="background:var(--navy);border-color:var(--navy)">
+        <div class="nc-label" style="color:rgba(255,255,255,.55)">Your savings rate (Tier 1)</div>
+        <div class="nc-val" style="color:#fff;font-size:36px">4.85%</div>
+        <div class="nc-sub" style="color:rgba(255,255,255,.55)">AER · theEasyBank · you qualify</div>
+      </div>
+      <div class="num-cell">
+        <div class="nc-label">Extra earned on £50k deposit</div>
+        <div class="nc-val green" style="font-size:30px">£375 / yr</div>
+        <div class="nc-sub">vs £2,050 standard · you earn £2,425</div>
+      </div>
+    </div>
+    <div style="font-size:13px;color:var(--ink3);margin-bottom:28px">Verified annually by Perseus. Rate applies while your Scope 2 stays in Tier 1. 0.171 kgCO₂/kWh qualifies (threshold: under 0.20).</div>
+
+    <div class="offer-list" style="margin-bottom:32px">
+      <div class="offer" onclick="selectOffer(this,'save1')">
+        <div class="offer-left">
+          <div class="offer-tag">Linked savings · theEasyBank · you qualify</div>
+          <div class="offer-name">Business Savings · Tier 1</div>
+          <div class="offer-desc">Earn more on existing cash balances. Annual Perseus verification keeps you in Tier 1.</div>
+        </div>
+        <div class="offer-right">
+          <div class="offer-rate" style="color:var(--navy)">4.85%</div>
+          <div class="offer-rate-unit">AER</div>
+          <div class="offer-saving" style="color:var(--navy)">+£375 / yr on £50k</div>
+          <div class="offer-std">4.10% standard</div>
+        </div>
+      </div>
+      <div class="offer" onclick="selectOffer(this,'save2')">
+        <div class="offer-left">
+          <div class="offer-tag">Tiered by intensity · Triodos Bank · you qualify</div>
+          <div class="offer-name">EcoSaver · Instant access</div>
+          <div class="offer-desc">0.171 kgCO₂/kWh puts you in Tier 1. Access cash anytime.</div>
+        </div>
+        <div class="offer-right">
+          <div class="offer-rate" style="color:var(--navy)">4.70%</div>
+          <div class="offer-rate-unit">AER</div>
+          <div class="offer-saving" style="color:var(--navy)">+£300 / yr on £50k</div>
+          <div class="offer-std">4.10% standard</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-green" onclick="go('apply')">Apply for Green Business Loan →</button>
+      <button class="btn btn-ghost" onclick="go('report')">← Back to report</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════
+     6. APPLICATION
+═══════════════════════ -->
+<div class="pg" id="pg-apply">
+  <div class="wrap">
+    <div class="eyebrow">theEasyBank · Green Business Loan · Application</div>
+    <h1 class="page-title">Apply — 4.2% pa · £35,000 · 5 years</h1>
+    <p class="page-sub">Your rate is pre-verified. Fill in the details below and authorise theEasyCarbonApp to share your signed emissions report with theEasyBank.</p>
+
+    <!-- Loan summary -->
+    <table class="loan-table">
+      <tr><td>Your rate</td><td><span class="big">4.2% pa</span></td></tr>
+      <tr><td>Standard rate (without Perseus)</td><td><span class="strike">5.4% pa</span></td></tr>
+      <tr><td>Monthly repayment</td><td><strong style="font-size:18px">£645</strong> &nbsp;<span style="font-size:13px;color:var(--ink3)">vs £668 standard</span></td></tr>
+      <tr><td>Annual saving</td><td><strong style="font-size:18px;color:var(--green)">£420</strong></td></tr>
+      <tr><td>Total saving over 5 years</td><td><strong style="font-size:18px;color:var(--green)">£2,100</strong></td></tr>
+      <tr><td>CO₂e saving (projected, with solar)</td><td><strong style="font-size:18px;color:var(--green)">−11.4 tCO₂e / yr</strong></td></tr>
+      <tr><td>MRV check</td><td>Annual via Perseus · January each year</td></tr>
+    </table>
+
+    <div class="rule"></div>
+
+    <!-- Loan details -->
+    <div class="field-row" style="margin-bottom:14px">
+      <div class="field"><label>Loan amount</label><input value="£35,000"></div>
+      <div class="field"><label>Term</label><select><option>5 years</option><option>3 years</option><option>7 years</option></select></div>
+    </div>
+    <div class="field"><label>Purpose</label><select><option>Solar PV installation</option><option>Heat pump</option><option>LED lighting retrofit</option><option>EV charging points</option></select></div>
+
+    <div class="rule"></div>
+
+    <!-- Share report -->
+    <div class="consent">
+      <div class="consent-title">Share your emissions report with theEasyBank</div>
+      <p>theEasyCarbonApp will send theEasyBank your signed annual report (9.8 tCO₂e, Jan–Dec 2024). They will use it to confirm your 4.2% rate and meet their PCAF reporting obligations. Your raw smart meter data is not shared.</p>
+      <div class="check-row"><input type="checkbox" id="r1" checked><label for="r1">I authorise sharing my signed emissions report with theEasyBank for this application</label></div>
+      <div class="check-row"><input type="checkbox" id="r2" checked><label for="r2">I agree to provide an updated annual Perseus report each January for ongoing rate review</label></div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-green" onclick="go('confirm')">Submit application →</button>
+      <button class="btn btn-ghost" onclick="go('offers')">← Back</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════
+     7. CONFIRMATION
+═══════════════════════ -->
+<div class="pg" id="pg-confirm">
+  <div class="wrap" style="padding-top:80px">
+    <div class="confirm-icon">✅</div>
+    <div class="eyebrow">Application submitted</div>
+    <h1 class="page-title">You're in the queue, Aisha</h1>
+    <p class="page-sub" style="margin-bottom:32px">Your application and Perseus-verified emissions report have been sent to theEasyBank. Decision within 24 hours at owner@greenoakcafe.co.uk.</p>
+
+    <!-- The numbers one more time -->
+    <div class="saving-box" style="margin-bottom:32px">
+      <div class="sb-cell">
+        <div class="sb-val">4.2%</div>
+        <div class="sb-lbl">your confirmed rate</div>
+      </div>
+      <div class="sb-cell" style="text-align:center">
+        <div class="sb-val">£420</div>
+        <div class="sb-lbl">saved per year</div>
+      </div>
+      <div class="sb-cell">
+        <div class="sb-val">9.8t</div>
+        <div class="sb-lbl">CO₂e · verified basis</div>
+      </div>
+    </div>
+
+    <div class="ref-box">
+      <div class="ref-row"><span class="rl">Reference</span><span class="rv" style="font-family:'DM Mono',monospace">GBL-2025-GOAK-0041</span></div>
+      <div class="ref-row"><span class="rl">Lender</span><span class="rv">theEasyBank</span></div>
+      <div class="ref-row"><span class="rl">Amount</span><span class="rv">£35,000</span></div>
+      <div class="ref-row"><span class="rl">Rate</span><span class="rv" style="color:var(--green)">4.2% pa (Perseus verified)</span></div>
+      <div class="ref-row"><span class="rl">Report shared</span><span class="rv">Annual 2024 · 9.8 tCO₂e · Perseus signed</span></div>
+      <div class="ref-row"><span class="rl">What theEasyBank received</span><span class="rv">Signed emissions summary only — no raw meter data</span></div>
+      <div class="ref-row"><span class="rl">Next MRV</span><span class="rv">January 2026 · auto-generated via Perseus</span></div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-green" onclick="go('dash')">Back to dashboard</button>
+      <button class="btn btn-ghost">Download confirmation</button>
+    </div>
+  </div>
+</div>
+
+
+<script>
+// Pages and step labels
+const pageOrder = ['dash','market','permissions','report','offers','apply','confirm'];
+const stepLabels = {
+  dash:        'Dashboard',
+  market:      'Step 1 · Why connect',
+  permissions: 'Step 2 · Give permission',
+  report:      'Step 3 · Verified report',
+  offers:      'Step 4 · Matched offers',
+  apply:       'Step 5 · Apply',
+  confirm:     'Application submitted'
+};
+
+function go(id) {
+  pageOrder.forEach(p => {
+    document.getElementById('pg-' + p).classList.toggle('on', p === id);
+  });
+  document.getElementById('bar-step').innerHTML = '<span>' + stepLabels[id] + '</span>';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (id === 'report') buildChart();
+}
+
+function selectOffer(el, id) {
+  el.closest('.offer-list').querySelectorAll('.offer').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+// Chart
+const months = ['J','F','M','A','M','J','J','A','S','O','N','D'];
+const vals   = [0.92, 0.81, 0.78, 0.72, 0.68, 0.74, 0.82, 0.85, 0.71, 0.69, 0.77, 0.91];
+const maxV   = Math.max(...vals);
+
+function buildChart() {
+  const bars = document.getElementById('chart-bars');
+  const labs = document.getElementById('chart-labels');
+  if (!bars || bars.children.length) return;
+  vals.forEach((v, i) => {
+    const b = document.createElement('div');
+    b.className = 'bar-b';
+    b.style.height = Math.round((v / maxV) * 100) + '%';
+    b.title = months[i] + ': ' + v + ' tCO₂e';
+    bars.appendChild(b);
+    const l = document.createElement('span');
+    l.textContent = months[i];
+    labs.appendChild(l);
+  });
+}
+</script>
+</body>
+
+<!-- Mirrored from dgen.net/w/ib1/perseus/perseus-2026-05-05-sme.2.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 28 Jul 2026 16:52:47 GMT -->
+</html>
