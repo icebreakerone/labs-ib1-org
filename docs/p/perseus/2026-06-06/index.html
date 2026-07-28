@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from dgen.net/w/ib1/perseus/v20260626/ by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 28 Jul 2026 19:14:22 GMT -->
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>theEasyCarbonApp · Mobile Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=DM+Mono:wght@500&amp;display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --green:#1a5c36; --green-m:#237a49; --green-l:#eaf5ef; --green-ll:#f4faf6;
+  --orange:#b84000; --orange-l:#fff3e0;
+  --navy:#1a2e3d; --navy-l:#e8ecf0;
+  --teal:#1d5c6e; --teal-l:#e4f1f5;
+  --ink:#13130f; --ink2:#4f4d49; --ink3:#9a9790;
+  --rule:#e7e3dc; --bg:#f4f2ee; --white:#fff;
+  --r:10px; --rl:16px;
+}
+html,body{height:100%}
+body{font-family:'DM Sans',system-ui,sans-serif;background:#0c1620;color:var(--ink);font-size:15px;line-height:1.5;
+  display:flex;align-items:center;justify-content:center;min-height:100vh;overflow-x:hidden}
+
+/* ════════ DEVICE FRAME (desktop preview look) ════════ */
+.device{
+  position:relative;width:100%;height:100vh;height:100dvh;
+  background:var(--bg);overflow:hidden;display:flex;flex-direction:column;
+}
+@media (min-width:481px){
+  body{padding:30px}
+  .device{
+    width:390px;height:820px;border-radius:42px;
+    box-shadow:0 0 0 10px #1a1a1a,0 0 0 12px #333,0 30px 70px rgba(0,0,0,.55);
+  }
+}
+
+/* ════════ TOP BAR ════════ */
+.topbar{
+  display:flex;align-items:center;gap:8px;padding:14px 16px 10px;
+  flex-shrink:0;background:var(--white);border-bottom:1px solid var(--rule);
+  padding-top:max(14px, env(safe-area-inset-top));
+}
+.tb-mark{width:26px;height:26px;border-radius:7px;background:var(--green-m);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0}
+.tb-name{font-size:14px;font-weight:700;color:var(--ink)}
+.tb-sp{flex:1}
+.icon-btn{
+  width:36px;height:36px;border-radius:50%;border:1.5px solid var(--rule);background:var(--white);
+  display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;flex-shrink:0;
+  transition:all .15s;
+}
+.icon-btn:active{transform:scale(.92)}
+.icon-btn.on{background:var(--orange);border-color:var(--orange);color:#fff;box-shadow:0 0 0 4px rgba(184,64,0,.15)}
+
+/* ════════ PROGRESS DOTS ════════ */
+.progress{display:flex;gap:6px;padding:10px 16px;flex-shrink:0;background:var(--white);border-bottom:1px solid var(--rule)}
+.pdot{flex:1;height:5px;border-radius:3px;background:var(--rule);border:none;cursor:pointer;transition:background .2s;padding:0}
+.pdot.done{background:var(--green-m)}
+.pdot.active{background:var(--orange)}
+
+/* ════════ CONTENT ════════ */
+.content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:18px 16px 24px;position:relative}
+.screen{display:none}
+.screen.active{display:block;animation:fadein .25s ease}
+@keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+.eyebrow{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3);margin-bottom:6px}
+h1.t{font-size:21px;font-weight:700;line-height:1.25;margin-bottom:6px}
+.sub{font-size:13px;color:var(--ink2);line-height:1.55;margin-bottom:18px}
+.section-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3);margin:18px 0 8px}
+
+/* ── metric cards ── */
+.metric{background:var(--white);border:1px solid var(--rule);border-radius:var(--r);padding:14px 16px;margin-bottom:10px;position:relative}
+.metric .ml{font-size:11px;font-weight:600;color:var(--ink3);margin-bottom:4px;display:flex;align-items:center;gap:6px}
+.metric .mv{font-size:24px;font-weight:700;line-height:1}
+.metric .mv.warn{color:var(--orange)}
+.metric .mv.good{color:var(--green)}
+.metric .mv .unit{font-size:14px;font-weight:500;color:var(--ink2)}
+.metric .ms{font-size:11.5px;color:var(--ink3);margin-top:3px}
+
+/* ── banner ── */
+.banner{background:linear-gradient(135deg,#16332a,var(--green-m));border-radius:var(--rl);padding:18px;color:#fff;margin-bottom:16px;position:relative}
+.banner .be{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.6);margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.banner h3{font-size:16px;font-weight:700;line-height:1.3;margin-bottom:6px}
+.banner p{font-size:12.5px;color:rgba(255,255,255,.78);line-height:1.5;margin-bottom:12px}
+.banner-stats{display:flex;gap:14px}
+.bs-item .bv{font-size:17px;font-weight:700}
+.bs-item .bl{font-size:9.5px;color:rgba(255,255,255,.55);text-transform:uppercase;letter-spacing:.04em;margin-top:1px}
+.banner-feature{background:rgba(255,255,255,.14);border-radius:12px;padding:14px 16px;margin-top:2px}
+.banner-feature .bf-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.6);margin-bottom:4px}
+.banner-feature .bf-val{font-size:30px;font-weight:800;color:#fff;line-height:1}
+.banner-feature .bf-val .bf-unit{font-size:14px;font-weight:500;color:rgba(255,255,255,.7);margin-left:4px}
+.banner-feature .bf-sub{font-size:11.5px;color:rgba(255,255,255,.7);margin-top:6px;font-weight:600}
+
+/* ── before/after compare ── */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.cmp-cell{border-radius:var(--r);padding:13px 14px;position:relative}
+.cmp-cell.was{background:var(--orange-l);border:1px solid rgba(184,64,0,.2)}
+.cmp-cell.now{background:var(--green-l);border:1px solid rgba(26,92,54,.2)}
+.cmp-cell .cl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--ink3);margin-bottom:4px;display:flex;align-items:center;gap:5px}
+.cmp-cell .cv{font-size:19px;font-weight:700}
+.cmp-cell.was .cv{color:var(--orange)}
+.cmp-cell.now .cv{color:var(--green)}
+.cmp-cell .cs{font-size:10.5px;color:var(--ink3);margin-top:3px;line-height:1.4}
+
+/* ── notice ── */
+.notice{background:var(--green-ll);border-left:3px solid var(--green-m);border-radius:0 var(--r) var(--r) 0;padding:12px 14px;font-size:12.5px;color:var(--ink2);line-height:1.55;margin-bottom:16px;position:relative}
+.notice strong{color:var(--green)}
+
+/* ── permission card (the real one) ── */
+.perm-card{background:var(--white);border:2px solid var(--teal);border-radius:var(--rl);padding:16px;margin-bottom:14px;position:relative}
+.perm-card .pc-title{font-size:13px;font-weight:700;color:var(--teal);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.perm-card p{font-size:13px;color:var(--ink2);line-height:1.6;margin-bottom:10px}
+.perm-card ul{padding-left:18px;margin-bottom:12px}
+.perm-card li{font-size:13px;color:var(--ink2);line-height:1.8}
+.give-perm-row{display:flex;align-items:center;gap:10px;padding:12px;background:var(--teal-l);border-radius:var(--r);cursor:pointer;user-select:none}
+.give-perm-row input{width:22px;height:22px;accent-color:var(--teal);flex-shrink:0}
+.give-perm-row label{font-size:14px;font-weight:700;color:var(--teal);cursor:pointer}
+.licence-note{font-size:10px;color:var(--ink3);font-family:'DM Mono',monospace;margin-top:10px;padding:8px 10px;background:var(--bg);border-radius:6px;word-break:break-all;line-height:1.6}
+
+/* ── scope rows ── */
+.scope{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--rule)}
+.scope:first-child{border-top:1px solid var(--rule)}
+.scope-dot{width:22px;height:22px;border-radius:50%;background:var(--green-l);color:var(--green);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.scope.off .scope-dot{background:#eee;color:var(--ink3)}
+.scope-txt{flex:1;font-size:13px}
+.scope.off{opacity:.5}
+.scope-sub{font-size:10.5px;color:var(--ink3)}
+
+/* ── status list ── */
+.slist{margin-bottom:6px}
+.srow{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--rule);position:relative}
+.srow:last-child{border-bottom:none}
+.sdot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.sdot.ok{background:var(--green-m)}.sdot.pending{background:#d97706}.sdot.idle{background:var(--ink3)}
+.srow-t{font-size:13px;font-weight:600;display:flex;align-items:center;gap:6px}
+.srow-s{font-size:11.5px;color:var(--ink3);margin-top:2px;line-height:1.4}
+
+/* ── chart ── */
+.chart-bars{display:flex;align-items:flex-end;gap:3px;height:56px;margin:10px 0 3px}
+.cbar{flex:1;background:var(--green-m);opacity:.8;border-radius:2px 2px 0 0;min-height:3px}
+.clabels{display:flex;gap:3px;margin-bottom:14px}
+.clabels span{flex:1;text-align:center;font-size:8px;color:var(--ink3)}
+
+/* ── provenance ── */
+.prov{margin-bottom:6px}
+.prow{display:flex;gap:10px;padding:9px 0;position:relative}
+.prow:not(:last-child)::after{content:'';position:absolute;left:10px;top:28px;width:1px;height:calc(100% - 14px);background:var(--rule)}
+.pnum{width:20px;height:20px;border-radius:50%;color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;z-index:1}
+.ptitle{font-size:12.5px;font-weight:600}
+.psub{font-size:10.5px;color:var(--ink3);margin-top:1px;line-height:1.4}
+
+/* ── offer cards ── */
+.offer{background:var(--white);border:1px solid var(--rule);border-radius:var(--rl);padding:15px;margin-bottom:10px;position:relative}
+.offer.top{border:2px solid var(--green-m)}
+.offer .o-badge{position:absolute;top:-9px;right:14px;background:var(--green-m);color:#fff;font-size:9px;font-weight:700;padding:3px 9px;border-radius:9px;letter-spacing:.03em}
+.offer .o-tag{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--ink3);margin-bottom:4px}
+.offer .o-name{font-size:14.5px;font-weight:700;margin-bottom:4px}
+.offer .o-desc{font-size:12px;color:var(--ink2);line-height:1.5;margin-bottom:10px}
+.offer-rates{display:flex;justify-content:space-between;align-items:flex-end;border-top:1px solid var(--rule);padding-top:10px}
+.or-rate{font-size:24px;font-weight:700;color:var(--green);display:flex;align-items:center;gap:6px}
+.or-std{font-size:11px;color:var(--ink3);text-decoration:line-through}
+.or-save{font-size:11.5px;font-weight:700;color:var(--green);text-align:right}
+
+details.more{margin-bottom:10px}
+details.more summary{font-size:12.5px;font-weight:600;color:var(--teal);cursor:pointer;padding:8px 0;list-style:none}
+details.more summary::-webkit-details-marker{display:none}
+details.more summary::before{content:'+ ';font-weight:700}
+details.more[open] summary::before{content:'– '}
+
+/* ── apply table ── */
+.atable{width:100%;margin-bottom:14px}
+.atable tr{border-bottom:1px solid var(--rule)}
+.atable tr:last-child{border-bottom:none}
+.atable td{padding:9px 0;font-size:13px}
+.atable td:last-child{text-align:right;font-weight:600}
+.atable .big{font-size:18px;color:var(--green)}
+.atable .strike{text-decoration:line-through;color:var(--ink3);font-weight:400;font-size:12px}
+
+/* ── consent block (apply) ── */
+.consent2{background:var(--white);border:1px solid var(--rule);border-radius:var(--rl);padding:15px;margin-bottom:14px;position:relative}
+.consent2 .c2t{font-size:13px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.consent2 p{font-size:12.5px;color:var(--ink2);line-height:1.55;margin-bottom:10px}
+.crow{display:flex;align-items:flex-start;gap:9px;margin-bottom:7px}
+.crow input{accent-color:var(--green-m);width:18px;height:18px;margin-top:1px;flex-shrink:0}
+.crow label{font-size:12px;color:var(--ink);line-height:1.45}
+
+/* ── confirm screen ── */
+.confirm-wrap{text-align:center;padding-top:30px}
+.cicon{width:64px;height:64px;border-radius:50%;background:var(--green-l);display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 16px}
+.ref-box{background:var(--white);border:1px solid var(--rule);border-radius:var(--rl);padding:14px 16px;text-align:left;margin-top:18px}
+.ref-row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--rule);font-size:12.5px}
+.ref-row:last-child{border-bottom:none}
+.ref-row .rl{color:var(--ink2)}
+.ref-row .rv{font-weight:600;text-align:right;max-width:60%}
+
+/* ════════ EXPLAINER BADGE ════════ */
+.ex{
+  display:none;width:21px;height:21px;border-radius:50%;flex-shrink:0;
+  background:var(--orange);color:#fff;font-size:11px;font-weight:700;font-style:italic;
+  align-items:center;justify-content:center;border:none;cursor:pointer;
+  position:relative;z-index:2;font-family:Georgia,serif;
+}
+body.explain-on .ex{display:inline-flex}
+body.explain-on .ex::after{
+  content:'';position:absolute;inset:-4px;border-radius:50%;border:2px solid var(--orange);
+  opacity:.6;animation:pulse 1.8s ease-out infinite;
+}
+@keyframes pulse{0%{transform:scale(.85);opacity:.7}70%{transform:scale(1.7);opacity:0}100%{opacity:0}}
+.ex-corner{position:absolute;top:10px;right:10px}
+.ex:active{transform:scale(.9)}
+
+/* hint toast */
+.toast{
+  position:absolute;bottom:90px;left:16px;right:16px;background:var(--navy);color:#fff;
+  padding:11px 14px;border-radius:10px;font-size:12.5px;text-align:center;z-index:50;
+  box-shadow:0 8px 24px rgba(0,0,0,.25);transition:opacity .3s,transform .3s;
+}
+.toast.hide{opacity:0;transform:translateY(8px);pointer-events:none}
+
+/* ════════ BOTTOM CTA ════════ */
+.ctabar{
+  display:flex;gap:10px;padding:12px 16px;flex-shrink:0;background:var(--white);
+  border-top:1px solid var(--rule);padding-bottom:max(12px, env(safe-area-inset-bottom));
+}
+.btn-back{width:46px;height:46px;border-radius:50%;border:1.5px solid var(--rule);background:var(--white);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;cursor:pointer}
+.btn-back:active{transform:scale(.93)}
+.btn-back:disabled{opacity:.3}
+.btn-primary{flex:1;background:var(--green-m);color:#fff;border:none;border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:background .15s}
+.btn-primary:active{background:var(--green)}
+.btn-primary:disabled{background:#ccc;cursor:not-allowed}
+
+/* ════════ EXPLAINER SHEET ════════ */
+.sheet-backdrop{
+  position:fixed;inset:0;background:rgba(10,15,20,.55);z-index:200;opacity:0;pointer-events:none;
+  transition:opacity .25s;
+}
+.sheet-backdrop.open{opacity:1;pointer-events:auto}
+.sheet{
+  position:fixed;left:50%;bottom:0;transform:translate(-50%,100%);width:100%;max-width:390px;
+  background:var(--white);border-radius:22px 22px 0 0;z-index:201;padding:10px 22px 26px;
+  transition:transform .3s cubic-bezier(.2,.9,.3,1);box-shadow:0 -10px 40px rgba(0,0,0,.3);
+  max-height:78vh;overflow-y:auto;
+}
+.sheet.open{transform:translate(-50%,0)}
+.sheet-handle{width:36px;height:4px;background:var(--rule);border-radius:3px;margin:6px auto 14px}
+.sheet-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:4px}
+.sheet-tag{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:3px 9px;border-radius:10px;display:inline-block;margin-bottom:8px}
+.sheet-close{width:30px;height:30px;border-radius:50%;border:none;background:var(--bg);font-size:14px;cursor:pointer;flex-shrink:0}
+.sheet h3{font-size:17px;font-weight:700;line-height:1.3;margin-bottom:10px}
+.sheet .sbody{font-size:14px;color:var(--ink2);line-height:1.65}
+.sheet .sbody strong{color:var(--ink)}
+
+/* presenter hint badge top bar */
+#firstHint{position:fixed;top:14px;left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;font-size:11.5px;font-weight:600;padding:8px 14px;border-radius:20px;z-index:300;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap}
+#firstHint.show{opacity:1}
+</style>
+</head>
+<body>
+
+<div class="device">
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div class="tb-mark">C</div>
+    <div class="tb-name">theEasyCarbonApp</div>
+    <div class="tb-sp"></div>
+    <button class="icon-btn" id="explainToggle" onclick="toggleExplain()" title="Explainer mode">💡</button>
+    <button class="icon-btn" onclick="restartDemo()" title="Restart">⟲</button>
+  </div>
+
+  <!-- PROGRESS DOTS -->
+  <div class="progress" id="progress">
+    <button class="pdot active" data-go="dash" onclick="go('dash')"></button>
+    <button class="pdot" data-go="market" onclick="go('market')"></button>
+    <button class="pdot" data-go="permission" onclick="go('permission')"></button>
+    <button class="pdot" data-go="report" onclick="go('report')"></button>
+    <button class="pdot" data-go="offers" onclick="go('offers')"></button>
+    <button class="pdot" data-go="apply" onclick="go('apply')"></button>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content" id="content">
+
+    <!-- ═══ 1. DASHBOARD ═══ -->
+    <section class="screen active" id="scr-dash">
+      <div class="eyebrow">Dashboard</div>
+      <h1 class="t">Good morning, Aisha 👋</h1>
+      <p class="sub">Green Oak Café Ltd</p>
+
+      <div class="banner">
+        <button class="ex ex-corner" onclick="openEx('perseus-overview')">i</button>
+        <div class="be">Action needed · Powered by Perseus</div>
+        <h3>You may qualify for green finance</h3>
+        <p>Connect your smart meter to confirm your estimate and unlock your best rate.</p>
+        <div class="banner-feature">
+          <div class="bf-label">Potential saving</div>
+          <div class="bf-val">£420<span class="bf-unit">/yr</span></div>
+          <div class="bf-sub">Improve your score to unlock it</div>
+        </div>
+      </div>
+
+      <div class="metric">
+        <div class="ml">Scope 2 estimate · 2024 <button class="ex" onclick="openEx('spend-based')">i</button></div>
+        <div class="mv warn">~11.4 <span class="unit">tCO₂e</span></div>
+        <div class="ms">Spend-based estimate · unconfirmed</div>
+      </div>
+      <div class="metric">
+        <div class="ml">Electricity spend</div>
+        <div class="mv">£14,200 <span class="unit">/ yr</span></div>
+        <div class="ms">Used to estimate consumption</div>
+      </div>
+      <div class="metric">
+        <div class="ml">Data quality <button class="ex" onclick="openEx('pcaf-scores')">i</button></div>
+        <div class="mv warn" style="font-size:18px">PCAF Score 4</div>
+        <div class="ms">Spend-based · lowest quality lenders use</div>
+      </div>
+    </section>
+
+    <!-- ═══ 2. MARKET / WHY CONNECT ═══ -->
+    <section class="screen" id="scr-market">
+      <div class="eyebrow">Step 1 · Why connect</div>
+      <h1 class="t">Confirm your footprint estimate</h1>
+      <p class="sub">Lenders need smart meter data to offer your best rate. Connecting via Perseus replaces your estimate with verified data, in one simple step.</p>
+
+      <div class="section-label">Before vs after connecting</div>
+      <div class="compare">
+        <div class="cmp-cell was">
+          <div class="cl">Now <button class="ex" onclick="openEx('why-projection-changes')">i</button></div>
+          <div class="cv">~11.4t</div>
+          <div class="cs">Spend-based · PCAF 4 · unconfirmed</div>
+        </div>
+        <div class="cmp-cell now">
+          <div class="cl">Projected</div>
+          <div class="cv">~9.8t</div>
+          <div class="cs">Smart meter · PCAF 1 · lender-ready</div>
+        </div>
+      </div>
+
+      <div class="metric" style="text-align:center;margin-bottom:16px">
+        <div class="ml" style="justify-content:center">Potential saving if confirmed</div>
+        <div class="mv good">£420 <span class="unit">/ yr</span></div>
+        <div class="ms">On a £35,000 green loan</div>
+      </div>
+
+      <div class="section-label">Why connect?</div>
+      <div class="scope"><div class="scope-dot">✓</div><div class="scope-txt">More likely to get a loan, because your data is trusted <button class="ex" onclick="openEx('data-minimisation')">i</button></div></div>
+      <div class="scope"><div class="scope-dot">✓</div><div class="scope-txt">More likely to get a faster decision <button class="ex" onclick="openEx('faster-decision')">i</button></div></div>
+      <div class="scope"><div class="scope-dot">✓</div><div class="scope-txt">More likely to get a better rate</div></div>
+    </section>
+
+    <!-- ═══ 3. PERMISSION (real Perseus text) ═══ -->
+    <section class="screen" id="scr-permission">
+      <div class="eyebrow">Step 2 · Give permission</div>
+      <h1 class="t">Connect your smart meter</h1>
+      <p class="sub">theEasyCarbonApp needs your permission to retrieve data from theEasySmartDataProvider.</p>
+
+      <div class="section-label">Data that will be accessed</div>
+      <div class="scope"><div class="scope-dot">✓</div><div class="scope-txt">Electricity consumption<div class="scope-sub">Every 30 minutes</div></div></div>
+      <div class="scope"><div class="scope-dot">✓</div><div class="scope-txt">Gas consumption<div class="scope-sub">Every 30 minutes</div></div></div>
+      <div class="scope"><div class="scope-dot">✓</div><div class="scope-txt">Electricity and gas tariff data</div></div>
+
+      <div class="perm-card" style="margin-top:16px">
+        <button class="ex ex-corner" onclick="openEx('real-permission-text')">i</button>
+        <div class="pc-title">🔒 Permission · theEasyCarbonApp</div>
+        <p>theEasyCarbonApp ("we") need your permission to retrieve your energy consumption information from <strong>theEasySmartDataProvider</strong> and provide calculated emissions to <strong>theEasyBank</strong>.</p>
+        <p>theEasyCarbonApp ("we") need your consent to access the following data provided by <strong>theEasySmartDataProvider</strong>:</p>
+        <ul>
+          <li>Your electricity and gas consumption (taken every 30 minutes)</li>
+          <li>Electricity and gas tariff data</li>
+        </ul>
+        <div class="give-perm-row" onclick="document.getElementById('givePerm').click()">
+          <input type="checkbox" id="givePerm" checked onclick="event.stopPropagation();updatePermBtn()">
+          <label>I give permission</label>
+        </div>
+        <div class="licence-note">
+          Licence: registry.core.sandbox.trust.ib1.org/scheme/perseus/license/energy-consumption-data/2025-10-23<br>
+          Expires after 12 months. Withdraw any time.
+        </div>
+      </div>
+
+      <div class="section-label">What happens next</div>
+      <div class="slist">
+        <div class="srow"><div class="sdot ok"></div><div><div class="srow-t">Permission logged <button class="ex" onclick="openEx('withdraw-rights')">i</button></div><div class="srow-s">Timestamp, user ID, and licence URL recorded by both parties</div></div></div>
+        <div class="srow"><div class="sdot ok"></div><div><div class="srow-t">FAPI 2.0 connection opens <button class="ex" onclick="openEx('fapi-mtls')">i</button></div><div class="srow-s">Authenticated with a certificate, not a password</div></div></div>
+        <div class="srow"><div class="sdot pending"></div><div><div class="srow-t">12 months of data retrieved</div><div class="srow-s">Replaces the spend-based estimate</div></div></div>
+        <div class="srow"><div class="sdot idle"></div><div><div class="srow-t">Signed report generated for theEasyBank</div><div class="srow-s">Raw meter data never leaves theEasyCarbonApp</div></div></div>
+      </div>
+    </section>
+
+    <!-- ═══ 4. REPORT ═══ -->
+    <section class="screen" id="scr-report">
+      <div class="eyebrow">Step 3 · Verified report</div>
+      <h1 class="t">Confirmed: 9.8 tCO₂e</h1>
+      <p class="sub">Signed by theEasyCarbonApp · Jan–Dec 2024 · Perseus certificate attached.</p>
+
+      <div class="compare">
+        <div class="cmp-cell was">
+          <div class="cl">Was estimated <button class="ex" onclick="openEx('pcaf-1-vs-4')">i</button></div>
+          <div class="cv">~11.4t</div>
+          <div class="cs">Spend-based · PCAF 4</div>
+        </div>
+        <div class="cmp-cell now">
+          <div class="cl">Now verified</div>
+          <div class="cv">9.8t</div>
+          <div class="cs">Smart meter · PCAF 1 · −14% vs estimate</div>
+        </div>
+      </div>
+
+      <div class="section-label">Monthly emissions (tCO₂e)</div>
+      <div class="chart-bars" id="chartBars"></div>
+      <div class="clabels" id="chartLabels"></div>
+
+      <div class="section-label">Behind the scenes, this is what's happening <button class="ex" onclick="openEx('provenance-chain')">i</button></div>
+      <div class="prov">
+        <div class="prow"><div class="pnum" style="background:var(--navy)">1</div><div><div class="ptitle">Smart meter → theEasySmartDataProvider</div><div class="psub">Direct measurement, SEC calibrated</div></div></div>
+        <div class="prow"><div class="pnum" style="background:var(--teal)">2</div><div><div class="ptitle">→ theEasyCarbonApp</div><div class="psub">FAPI 2.0 · mTLS · signed transfer</div></div></div>
+        <div class="prow"><div class="pnum" style="background:#92600a">3</div><div><div class="ptitle">+ NESO grid carbon intensity</div><div class="psub">Half-hourly, by location</div></div></div>
+        <div class="prow"><div class="pnum" style="background:var(--green-m)">4</div><div><div class="ptitle">Emissions calculated &amp; signed</div><div class="psub">PCAF methodology · Perseus certificate</div></div></div>
+        <div class="prow"><div class="pnum" style="background:var(--orange)">5</div><div><div class="ptitle">→ theEasyBank</div><div class="psub">Signed summary only, no raw data</div></div></div>
+      </div>
+    </section>
+
+    <!-- ═══ 5. OFFERS ═══ -->
+    <section class="screen" id="scr-offers">
+      <div class="eyebrow">Step 4 · Matched offers</div>
+      <h1 class="t">Your confirmed rates</h1>
+      <p class="sub">Locked to your verified 9.8 tCO₂e, PCAF Score 1 report.</p>
+
+      <div class="section-label">Borrowing</div>
+      <div class="offer top">
+        <span class="o-badge">Best match</span>
+        <button class="ex ex-corner" onclick="openEx('rate-from-pcaf')">i</button>
+        <div class="o-tag">Green loan · theEasyBank</div>
+        <div class="o-name">Green Business Loan</div>
+        <div class="o-desc">£35,000 · 5 years · solar, heat pump, EV charging</div>
+        <div class="offer-rates">
+          <div class="or-rate">4.2% <span style="font-size:12px;color:var(--ink3);font-weight:400">pa</span></div>
+          <div>
+            <div class="or-std">5.4% standard</div>
+            <div class="or-save">Save £420/yr</div>
+          </div>
+        </div>
+      </div>
+
+      <details class="more">
+        <summary>2 more loan options</summary>
+        <div class="offer" style="margin-top:8px">
+          <div class="o-tag">Sustainability-linked · theEasyBank</div>
+          <div class="o-name">SLL with CO₂ KPI</div>
+          <div class="o-desc">£50,000 · rate falls as emissions fall</div>
+          <div class="offer-rates"><div class="or-rate" style="font-size:19px">4.9%</div><div class="or-save">→ 4.65% yr 2</div></div>
+        </div>
+        <div class="offer">
+          <div class="o-tag">Retrofit · GreenCapital Bank</div>
+          <div class="o-name">Energy Efficiency Retrofit</div>
+          <div class="o-desc">Up to £75,000 · 7 years</div>
+          <div class="offer-rates"><div class="or-rate" style="font-size:19px">3.9%</div><div class="or-save">Lowest rate</div></div>
+        </div>
+      </details>
+    </section>
+
+    <!-- ═══ 6. APPLY ═══ -->
+    <section class="screen" id="scr-apply">
+      <div class="eyebrow">Step 5 · Apply</div>
+      <h1 class="t">Green Business Loan</h1>
+      <p class="sub">theEasyBank · 4.2% pa · £35,000 · 5 years</p>
+
+      <table class="atable">
+        <tr><td>Your rate</td><td class="big">4.2% pa</td></tr>
+        <tr><td>Standard rate</td><td class="strike">5.4% pa</td></tr>
+        <tr><td>Monthly payment</td><td>£645</td></tr>
+        <tr><td>Annual saving</td><td class="big">£420</td></tr>
+        <tr><td>5-year saving</td><td class="big">£2,100</td></tr>
+      </table>
+
+      <div class="consent2">
+        <button class="ex ex-corner" onclick="openEx('what-bank-receives')">i</button>
+        <div class="c2t">📄 Share report with theEasyBank</div>
+        <p>theEasyCarbonApp will send your signed 9.8 tCO₂e report. Your raw smart meter data is not shared.</p>
+        <div class="crow"><input type="checkbox" checked><label>I authorise sharing my signed report with theEasyBank</label></div>
+        <div class="crow"><input type="checkbox" checked><label>I'll provide an updated report each January for rate review</label></div>
+      </div>
+    </section>
+
+    <!-- ═══ 7. CONFIRM ═══ -->
+    <section class="screen" id="scr-confirm">
+      <div class="confirm-wrap">
+        <div class="cicon">✅</div>
+        <h1 class="t">Application submitted</h1>
+        <p class="sub">Decision within 24 hours at owner@greenoakcafe.co.uk</p>
+        <div class="ref-box">
+          <div class="ref-row"><span class="rl">Reference</span><span class="rv">GBL-2025-GOAK-0041</span></div>
+          <div class="ref-row"><span class="rl">Rate confirmed</span><span class="rv" style="color:var(--green)">4.2% pa</span></div>
+          <div class="ref-row"><span class="rl">Basis</span><span class="rv">9.8 tCO₂e · PCAF Score 1</span></div>
+          <div class="ref-row"><span class="rl">Data quality</span><span class="rv">Upgraded from Score 4 → 1</span></div>
+        </div>
+
+        <div class="section-label" style="text-align:left;margin-top:20px">This was the benefit</div>
+        <div class="ref-box">
+          <div class="ref-row"><span class="rl">Standard rate</span><span class="rv">5.4% pa</span></div>
+          <div class="ref-row"><span class="rl">Your rate</span><span class="rv" style="color:var(--green)">4.2% pa</span></div>
+          <div class="ref-row"><span class="rl">Annual saving</span><span class="rv" style="color:var(--green)">£420 / yr</span></div>
+          <div class="ref-row"><span class="rl">Data quality before</span><span class="rv">PCAF Score 4, spend-based</span></div>
+          <div class="ref-row"><span class="rl">Data quality after</span><span class="rv" style="color:var(--green)">PCAF Score 1, smart meter</span></div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- BOTTOM CTA -->
+  <div class="ctabar">
+    <button class="btn-back" id="backBtn" onclick="prev()">‹</button>
+    <button class="btn-primary" id="primaryBtn" onclick="next()">Continue</button>
+  </div>
+</div>
+
+<!-- HINT TOAST -->
+<div id="firstHint">💡 Tap any glowing dot for an explainer</div>
+
+<!-- EXPLAINER SHEET -->
+<div class="sheet-backdrop" id="backdrop" onclick="closeEx()"></div>
+<div class="sheet" id="sheet">
+  <div class="sheet-handle"></div>
+  <div class="sheet-head">
+    <span class="sheet-tag" id="sheetTag"></span>
+    <button class="sheet-close" onclick="closeEx()">✕</button>
+  </div>
+  <h3 id="sheetTitle"></h3>
+  <div class="sbody" id="sheetBody"></div>
+</div>
+
+<script>
+/* ───────── SCREEN NAVIGATION ───────── */
+const order = ['dash','market','permission','report','offers','apply','confirm'];
+const ctaLabels = {
+  dash: 'See how to confirm →',
+  market: 'Connect smart meter →',
+  permission: 'Continue →',
+  report: 'See matched offers →',
+  offers: 'Apply for top offer →',
+  apply: 'Submit application →',
+  confirm: 'Restart demo'
+};
+let current = 0;
+
+function go(id){
+  const idx = order.indexOf(id);
+  if(idx === -1) return;
+  current = idx;
+  render();
+}
+function next(){
+  if(order[current] === 'confirm'){ restartDemo(); return; }
+  if(order[current] === 'permission' && !document.getElementById('givePerm').checked) return;
+  if(current < order.length - 1){ current++; render(); }
+}
+function prev(){ if(current > 0){ current--; render(); } }
+
+function render(){
+  const id = order[current];
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('scr-'+id).classList.add('active');
+
+  // progress dots: confirm shares apply's dot visually as done
+  const dotIdx = Math.min(current, 5);
+  document.querySelectorAll('.pdot').forEach((d,i) => {
+    d.classList.remove('active','done');
+    if(i < dotIdx) d.classList.add('done');
+    else if(i === dotIdx) d.classList.add('active');
+  });
+  document.getElementById('progress').style.display = id === 'confirm' ? 'none' : 'flex';
+
+  document.getElementById('backBtn').disabled = current === 0;
+  document.getElementById('primaryBtn').textContent = ctaLabels[id];
+  updatePermBtn();
+
+  document.getElementById('content').scrollTop = 0;
+  if(id === 'report') buildChart();
+}
+
+function updatePermBtn(){
+  if(order[current] !== 'permission') return;
+  const checked = document.getElementById('givePerm').checked;
+  document.getElementById('primaryBtn').disabled = !checked;
+  document.getElementById('primaryBtn').textContent = checked ? 'Continue →' : 'You must give permission';
+}
+
+function restartDemo(){
+  current = 0;
+  document.getElementById('givePerm').checked = true;
+  render();
+}
+
+/* ───────── CHART ───────── */
+const months = ['J','F','M','A','M','J','J','A','S','O','N','D'];
+const vals = [0.92,0.81,0.78,0.72,0.68,0.74,0.82,0.85,0.71,0.69,0.77,0.91];
+function buildChart(){
+  const bars = document.getElementById('chartBars');
+  const labs = document.getElementById('chartLabels');
+  if(bars.children.length) return;
+  const max = Math.max(...vals);
+  vals.forEach((v,i)=>{
+    const b = document.createElement('div');
+    b.className='cbar'; b.style.height = Math.round(v/max*100)+'%';
+    bars.appendChild(b);
+    const l = document.createElement('span'); l.textContent = months[i];
+    labs.appendChild(l);
+  });
+}
+
+/* ───────── EXPLAINER MODE ───────── */
+let explainOn = false;
+let hintShown = false;
+function toggleExplain(){
+  explainOn = !explainOn;
+  document.body.classList.toggle('explain-on', explainOn);
+  document.getElementById('explainToggle').classList.toggle('on', explainOn);
+  if(explainOn && !hintShown){
+    hintShown = true;
+    const h = document.getElementById('firstHint');
+    h.classList.add('show');
+    setTimeout(()=> h.classList.remove('show'), 2800);
+  }
+}
+
+/* ───────── EXPLAINER CONTENT ───────── */
+const EXPL = {
+  'perseus-overview': {
+    tag:'Concept', color:'#1d5c6e', bg:'#e4f1f5',
+    title:'What is Perseus?',
+    body:`Perseus is an industry-wide data sharing initiative. It is designed to make it easy for you to share your data while protecting your rights. You give one permission, and your energy data can move safely from your smart meter to your carbon accounting app, and on to your bank, with proof of where it came from at every step.`
+  },
+  'spend-based': {
+    tag:'Why it matters', color:'#b84000', bg:'#fff3e0',
+    title:'Why is this just an estimate?',
+    body:`Aisha hasn't connected her smart meter yet. theEasyCarbonApp has estimated her emissions from <strong>how much she spent</strong> on electricity, not what she actually used. Spend-based estimates can be wrong by 30% or more, in either direction.`
+  },
+  'pcaf-scores': {
+    tag:'Definition', color:'#1a2e3d', bg:'#e8ecf0',
+    title:'PCAF data quality scores',
+    body:`PCAF scores run from 1 to 5. <strong>Score 1</strong> means the figure comes directly from a meter, the highest quality available. <strong>Score 5</strong> means it's a broad estimate, like an industry average. Spend-based estimates like Aisha's usually sit at Score 4. That's better than nothing, but it's not something a bank can fully rely on.`
+  },
+  'why-projection-changes': {
+    tag:'Why it matters', color:'#b84000', bg:'#fff3e0',
+    title:'Why might the real figure differ?',
+    body:`The £14,200 estimate assumes an average grid carbon intensity. Her actual smart meter data will show exactly <strong>when</strong> she used electricity, and the grid is cleaner at some times than others. The real figure could end up higher or lower than the estimate.`
+  },
+  'faster-decision': {
+    tag:'Why it matters', color:'#b84000', bg:'#fff3e0',
+    title:'Why does verified data speed things up?',
+    body:`Slow decisions are one of the most common complaints SMEs raise about business lending. When the figures are independently verified by Perseus, theEasyBank can skip manual checks. That can turn a multi-week wait into a same-day answer.`
+  },
+  'data-minimisation': {
+    tag:'Mechanic', color:'#1d5c6e', bg:'#e4f1f5',
+    title:'Who sees what',
+    body:`Perseus is designed around data minimisation, so only the data that's needed actually gets shared. theEasySmartDataProvider releases raw meter data only to theEasyCarbonApp. <strong>theEasyBank never sees a single meter reading</strong>, only the final signed emissions figure.`
+  },
+  'real-permission-text': {
+    tag:'Mechanic', color:'#1d5c6e', bg:'#e4f1f5',
+    title:'This is the actual Perseus permission text',
+    body:`This wording isn't written by theEasyCarbonApp. It's fixed by the <strong>Perseus Registry</strong> and is identical for every Carbon Accounting Platform in the scheme. A CAP can only choose the label on the checkbox itself. This keeps the permission consistent and protects your rights, no matter which app you use.`
+  },
+  'fapi-mtls': {
+    tag:'Mechanic', color:'#1d5c6e', bg:'#e4f1f5',
+    title:'What happens when she taps "I give permission"',
+    body:`theEasyCarbonApp opens a secure connection to theEasySmartDataProvider, authenticated with a digital certificate rather than a password. A formal request proves that permission was genuinely given before any data moves.`
+  },
+  'withdraw-rights': {
+    tag:'Mechanic', color:'#1d5c6e', bg:'#e4f1f5',
+    title:'Can she change her mind?',
+    body:`Yes. Aisha can withdraw permission at any point from her settings. theEasySmartDataProvider stops sharing data immediately, and any data not yet processed into a report is deleted. Protecting that right is part of how Perseus is designed.`
+  },
+  'pcaf-1-vs-4': {
+    tag:'Why it matters', color:'#b84000', bg:'#fff3e0',
+    title:'From Score 4 to Score 1',
+    body:`Connecting the smart meter doesn't just change the number. It changes the <strong>category of evidence</strong> behind it. Lenders can offer real, regulator-grade pricing on Score 1 data. Most won't act on Score 4 estimates at all.`
+  },
+  'provenance-chain': {
+    tag:'Mechanic', color:'#1d5c6e', bg:'#e4f1f5',
+    title:'The provenance chain',
+    body:`Each step is recorded and digitally signed by whoever performed it: the meter reading, the transfer, the calculation, and the signing. theEasyBank can verify the entire chain back to the original meter reading, without needing to take theEasyCarbonApp's word for it.`
+  },
+  'rate-from-pcaf': {
+    tag:'Why it matters', color:'#b84000', bg:'#fff3e0',
+    title:'Why this exact rate?',
+    body:`theEasyBank can only offer a verified green rate once it has Score 1 data behind it. The discount is tied to the quality of the data, not just the emissions number itself.`
+  },
+  'what-bank-receives': {
+    tag:'Mechanic', color:'#1d5c6e', bg:'#e4f1f5',
+    title:'What theEasyBank actually receives',
+    body:`Just one signed PDF and a matching file: the total emissions figure, the method used, and a summary of where the data came from. No raw consumption data and no tariff details ever leave theEasyCarbonApp.`
+  }
+};
+
+function openEx(id){
+  const e = EXPL[id];
+  if(!e) return;
+  const tagEl = document.getElementById('sheetTag');
+  tagEl.textContent = e.tag;
+  tagEl.style.color = e.color;
+  tagEl.style.background = e.bg;
+  document.getElementById('sheetTitle').textContent = e.title;
+  document.getElementById('sheetBody').innerHTML = e.body;
+  document.getElementById('backdrop').classList.add('open');
+  document.getElementById('sheet').classList.add('open');
+}
+function closeEx(){
+  document.getElementById('backdrop').classList.remove('open');
+  document.getElementById('sheet').classList.remove('open');
+}
+
+render();
+</script>
+</body>
+
+<!-- Mirrored from dgen.net/w/ib1/perseus/v20260626/ by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 28 Jul 2026 19:14:22 GMT -->
+</html>
