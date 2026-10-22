@@ -5,4 +5,4 @@ IB1 Labs - experimental pages
 
 Add personal pages to `/docs/u/<your initials>/<whatever-you-want>/index.html`
 
-Add project-specific pages to `/docs/p/<project>/<dddd-mm-yy>/<whatever-you-want>/index.html`
+Add project-specific pages to `/docs/p/<project>/<yyyy-mm-dd>/<whatever-you-want>/index.html`
